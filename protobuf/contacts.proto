@@ -1,0 +1,20 @@
+syntax = "proto3";
+package protobuf;
+option go_package="protobuf";
+
+message ContactResponse {
+    repeated Contact contact = 1;
+}
+
+message Contact {
+    string ContactID = 1;
+    string FirstName = 2;
+    string LastName = 3;
+    string BusinessName = 4;
+    string JobTitle = 5;
+    string LocationGroupID = 6;
+    string Image = 7;
+    string Description = 8;
+    int32 ContactGroupID = 9;    
+
+}
