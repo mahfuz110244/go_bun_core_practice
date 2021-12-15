@@ -69,16 +69,16 @@ type User struct {
 	Emails string `json:"emails"`
 }
 
-type BarcodesSetting struct {
-	bun.BaseModel  `bun:"sales_practice.barcodes_setting"`
-	ID             int       `json:"id" bun:"type:id,pk"`
-	Name           string    `json:"name"`
-	Description    string    `json:"description"`
-	OrderingNumber int       `json:"ordering_number"`
-	Active         bool      `json:"active"`
-	UpdatedBy      string    `json:"updated_by"`
-	CreatedBy      string    `json:"created_by"`
-	UpdatedAt      string    `json:"updated_at"`
-	CreatedAt      string    `json:"created_at"`
-	DeletedAt      time.Time `bun:",soft_delete"`
+type Status struct {
+	bun.BaseModel `bun:"public.status"`
+	ID            string    `json:"id" bun:"type:uuid,pk"`
+	Name          string    `json:"name"`
+	Description   string    `json:"description"`
+	OrderNumber   int       `json:"order_number"`
+	Active        bool      `json:"active"`
+	UpdatedBy     string    `json:"updated_by"`
+	CreatedBy     string    `json:"created_by"`
+	UpdatedAt     string    `json:"updated_at"`
+	CreatedAt     string    `json:"created_at"`
+	DeletedAt     time.Time `bun:",soft_delete"`
 }

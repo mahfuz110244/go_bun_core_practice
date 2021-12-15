@@ -50,12 +50,12 @@ func main() {
 	// Routes
 	e.GET("/", status)
 
-	e.GET("/barcode/setting", getBarcodesSetting)
-	e.GET("/barcode/setting/:id", getBarcodesSettingById)
-	e.DELETE("/barcode/settings/:id", deleteBarcodesSettingById)
-	e.POST("/barcode/setting", SaveBarcodesSetting)
-	e.PUT("/barcode/setting/:id", updateBarcodesSetting)
-	e.PUT("/barcode/setting", bulkUpdateBarcodesSetting)
+	e.GET("/status", getStatus)
+	e.GET("/status/:id", getStatusById)
+	e.DELETE("/status/:id", deleteStatusById)
+	e.POST("/status", SaveStatus)
+	e.PUT("/status/:id", updateStatus)
+	e.PUT("/status", bulkUpdateStatus)
 
 	// Start server
 	address := fmt.Sprintf("%s:%s", config.Get("host").(string), config.Get("port").(string))

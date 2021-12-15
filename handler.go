@@ -17,10 +17,10 @@ func status(c echo.Context) error {
 	return c.JSON(http.StatusOK, fmt.Sprintf("%s version %s is up and running!", config.Get("name").(string), config.Get("version").(string)))
 }
 
-func getBarcodesSetting(c echo.Context) error {
+func getStatus(c echo.Context) error {
 
 	ctx := context.Background()
-	var barcodesSetting []BarcodesSetting
+	var status []Status
 	descriptionParam := c.QueryParam("description")
 	nameParam := c.QueryParam("name")
 	activeParam := c.QueryParam("active")
@@ -43,53 +43,53 @@ func getBarcodesSetting(c echo.Context) error {
 	fmt.Println(where)
 	//descriptionFilter := descriptionParam+"= "+ c.ParamValues(description)
 
-	cnt, err := db.NewSelect().Model(&barcodesSetting).OrderExpr("ordering_number DESC").Where(where).ScanAndCount(ctx)
+	cnt, err := db.NewSelect().Model(&status).OrderExpr("order_number DESC").Where(where).ScanAndCount(ctx)
 	if err != nil {
 		panic(err)
 	}
 	if cnt == 0 {
-		//barcodesSetting :=
+		//status :=
 		myslice := []int{}
 		//	fmt.Println(")))))))))))))")
 		fmt.Println(myslice)
 		return c.JSON(http.StatusOK, myslice)
 
 	}
-	return c.JSON(http.StatusOK, barcodesSetting)
+	return c.JSON(http.StatusOK, status)
 }
 
-func getBarcodesSettingById(c echo.Context) error {
+func getStatusById(c echo.Context) error {
 
 	barCodeId := c.Param("id")
 
 	ctx := context.Background()
-	var barcodesSetting BarcodesSetting
-	err := db.NewSelect().Model(&barcodesSetting).Where("id = ?", barCodeId).Scan(ctx)
+	var status Status
+	err := db.NewSelect().Model(&status).Where("id = ?", barCodeId).Scan(ctx)
 	if err != nil {
 		panic(err)
 	}
-	return c.JSON(http.StatusOK, barcodesSetting)
+	return c.JSON(http.StatusOK, status)
 }
 
-func deleteBarcodesSettingById(c echo.Context) error {
+func deleteStatusById(c echo.Context) error {
 
 	barCodeId := c.Param("id")
 	fmt.Println(barCodeId)
 
 	ctx := context.Background()
-	var barcodesSetting BarcodesSetting
-	_, err := db.NewDelete().Model(&barcodesSetting).Where("id = ?", barCodeId).Exec(ctx)
+	var status Status
+	_, err := db.NewDelete().Model(&status).Where("id = ?", barCodeId).Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
-	return c.JSON(http.StatusOK, barcodesSetting)
+	return c.JSON(http.StatusOK, status)
 }
 
-func SaveBarcodesSetting(c echo.Context) error {
+func SaveStatus(c echo.Context) error {
 
-	barcodesSetting := &BarcodesSetting{}
+	status := &Status{}
 
-	err := c.Bind(barcodesSetting)
+	err := c.Bind(status)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, &GenericErrorResponse{
@@ -99,7 +99,7 @@ func SaveBarcodesSetting(c echo.Context) error {
 		})
 	}
 	ctx := context.Background()
-	_, err = db.NewInsert().Model(barcodesSetting).ExcludeColumn("updated_at", "id", "created_at", "updated_by").Exec(ctx)
+	_, err = db.NewInsert().Model(status).ExcludeColumn("updated_at", "id", "created_at", "updated_by").Exec(ctx)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, &GenericErrorResponse{
 			false,
@@ -113,12 +113,12 @@ func SaveBarcodesSetting(c echo.Context) error {
 	})
 }
 
-func updateBarcodesSetting(c echo.Context) error {
+func updateStatus(c echo.Context) error {
 
-	barcodesSetting := &BarcodesSetting{}
-	barcodeId := c.Param("id")
+	status := &Status{}
+	statusID := c.Param("id")
 
-	err := c.Bind(barcodesSetting)
+	err := c.Bind(status)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, &GenericErrorResponse{
@@ -128,9 +128,9 @@ func updateBarcodesSetting(c echo.Context) error {
 		})
 	}
 	ctx := context.Background()
-	_, err = db.NewUpdate().Model(barcodesSetting).
+	_, err = db.NewUpdate().Model(status).
 		ExcludeColumn("created_at", "created_by", "updated_at").
-		Where("id = ?", barcodeId).
+		Where("id = ?", statusID).
 		Exec(ctx)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, &GenericErrorResponse{
@@ -145,12 +145,12 @@ func updateBarcodesSetting(c echo.Context) error {
 	})
 }
 
-func bulkUpdateBarcodesSetting(c echo.Context) error {
+func bulkUpdateStatus(c echo.Context) error {
 
-	barcodesSetting := &[]BarcodesSetting{}
-	//	barcodeId := c.Param("id")
+	status := &[]Status{}
+	//	statusID := c.Param("id")
 
-	err := c.Bind(barcodesSetting)
+	err := c.Bind(status)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, &GenericErrorResponse{
@@ -159,11 +159,11 @@ func bulkUpdateBarcodesSetting(c echo.Context) error {
 			"Invalid data binding for create test params1",
 		})
 	}
-	values := db.NewValues(barcodesSetting)
+	values := db.NewValues(status)
 	ctx := context.Background()
 	_, err = db.NewUpdate().
 		With("_data", values).
-		Model((*BarcodesSetting)(nil)).
+		Model((*Status)(nil)).
 		TableExpr("_data").
 		Set("active = _data.active").
 		Set("ordering_number = _data.ordering_number").

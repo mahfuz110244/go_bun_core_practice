@@ -24,12 +24,12 @@ func dbconn(dbconfig *toml.Tree) *bun.DB {
 
 	ctx := context.Background()
 
-	var users []BarcodesSetting
-	count, err := db.NewSelect().Model(&users).Limit(20).ScanAndCount(ctx)
+	var status []Status
+	count, err := db.NewSelect().Model(&status).Limit(20).ScanAndCount(ctx)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(users, count)
+	fmt.Println(status, count)
 
 	if err != nil {
 		log.Fatal(err.Error())
