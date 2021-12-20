@@ -1,6 +1,6 @@
 FROM scratch
-COPY go-contact-service ./
+COPY go-echo-bun-crud-service ./
 COPY config.ini ./
-EXPOSE 1326
+EXPOSE 3000
 
-ENTRYPOINT ["/go-echo-bun-crud-service"]
+ENTRYPOINT ["./go-echo-bun-crud-service"]

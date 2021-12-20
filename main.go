@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"go-echo-bun-crud-service/schema"
 	"log"
 
-	"github.com/Gononet-LLC/go-contact-service/schema"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	toml "github.com/pelletier/go-toml"

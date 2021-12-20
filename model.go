@@ -3,7 +3,8 @@ package main
 import (
 	"time"
 
-	"github.com/Gononet-LLC/go-contact-service/schema"
+	"go-echo-bun-crud-service/schema"
+
 	"github.com/uptrace/bun"
 )
 
@@ -74,11 +75,11 @@ type Status struct {
 	ID            string    `json:"id" bun:"type:uuid,pk"`
 	Name          string    `json:"name"`
 	Description   string    `json:"description"`
-	OrderNumber   int       `json:"order_number"`
-	Active        bool      `json:"active"`
+	OrderNo       int       `json:"order_no"`
+	IsActive      bool      `json:"is_active"`
 	UpdatedBy     string    `json:"updated_by"`
 	CreatedBy     string    `json:"created_by"`
 	UpdatedAt     string    `json:"updated_at"`
 	CreatedAt     string    `json:"created_at"`
-	DeletedAt     time.Time `bun:",soft_delete"`
+	DeletedAt     time.Time `json:"deleted_at" bun:",soft_delete"`
 }

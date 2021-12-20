@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/websocket"
@@ -43,7 +44,7 @@ func getStatus(c echo.Context) error {
 	fmt.Println(where)
 	//descriptionFilter := descriptionParam+"= "+ c.ParamValues(description)
 
-	cnt, err := db.NewSelect().Model(&status).OrderExpr("order_number DESC").Where(where).ScanAndCount(ctx)
+	cnt, err := db.NewSelect().Model(&status).OrderExpr("order_no DESC").Where(where).ScanAndCount(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -66,7 +67,8 @@ func getStatusById(c echo.Context) error {
 	var status Status
 	err := db.NewSelect().Model(&status).Where("id = ?", barCodeId).Scan(ctx)
 	if err != nil {
-		panic(err)
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, err)
 	}
 	return c.JSON(http.StatusOK, status)
 }
@@ -82,7 +84,7 @@ func deleteStatusById(c echo.Context) error {
 	if err != nil {
 		panic(err)
 	}
-	return c.JSON(http.StatusOK, status)
+	return c.JSON(http.StatusOK, nil)
 }
 
 func SaveStatus(c echo.Context) error {
