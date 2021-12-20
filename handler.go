@@ -150,8 +150,6 @@ func updateStatus(c echo.Context) error {
 func bulkUpdateStatus(c echo.Context) error {
 
 	status := &[]Status{}
-	//	statusID := c.Param("id")
-
 	err := c.Bind(status)
 
 	if err != nil {
@@ -162,27 +160,17 @@ func bulkUpdateStatus(c echo.Context) error {
 		})
 	}
 	values := db.NewValues(status)
+	fmt.Println(values)
 	ctx := context.Background()
 	_, err = db.NewUpdate().
 		With("_data", values).
 		Model((*Status)(nil)).
 		TableExpr("_data").
-		Set("active = _data.active").
-		Set("ordering_number = _data.ordering_number").
+		Set("is_active = _data.is_active").
+		Set("order_no = _data.order_no").
 		Set("description = _data.description").
-		Where("barcodes_setting.id = _data.id").
+		Where("status.id = _data.id").
 		Exec(ctx)
-
-		/*
-				res, err := db.NewUpdate().
-			With("_data", values).
-			Model((*Book)(nil)).
-			TableExpr("_data").
-			Set("title = _data.title").
-			Set("text = _data.text").
-			Where("book.id = _data.id").
-			Exec(ctx)
-		*/
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, &GenericErrorResponse{
 			false,
