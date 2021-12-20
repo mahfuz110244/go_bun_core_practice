@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"go-echo-bun-crud-service/schema"
 	"log"
 
 	"github.com/labstack/echo/v4"
@@ -21,7 +20,7 @@ var config *toml.Tree
 var db *bun.DB
 
 //var db *gorm.DB
-var database *schema.Queries
+// var database *schema.Queries
 
 // server is used to implement helloworld.GreeterServer.
 
