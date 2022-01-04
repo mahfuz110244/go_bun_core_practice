@@ -3,8 +3,6 @@ package main
 import (
 	"time"
 
-	"go-echo-bun-crud-service/schema"
-
 	"github.com/uptrace/bun"
 )
 
@@ -18,16 +16,6 @@ type GenericErrorResponse struct {
 	Success      bool   `json:"sucess"`
 	ErrorMessage string `json:"error_message"` // <-- This will be removed in production. Currently in use in Dev phase
 	Message      string `json:"message"`
-}
-
-type CreateContactRequest struct {
-	Contact   schema.CreateContactParams          `json:"contact"`
-	Addresses []schema.CreateContactAddressParams `json:"addresses"`
-}
-
-type ContactResponse struct {
-	Pages    int64                       `json:"pages"`
-	Contacts *[]schema.GetAllContactsRow `json:"contacts"`
 }
 
 /*type ContactFilter struct {
@@ -76,6 +64,7 @@ type Status struct {
 	Name          string    `json:"name"`
 	Description   string    `json:"description"`
 	OrderNo       int       `json:"order_no"`
+	TotalBill     float32   `json:"total_bill" db:"total_bill" validate:"required"`
 	IsActive      bool      `json:"is_active"`
 	UpdatedBy     string    `json:"updated_by"`
 	CreatedBy     string    `json:"created_by"`

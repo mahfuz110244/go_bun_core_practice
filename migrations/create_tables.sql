@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS public.status (
 	description VARCHAR (255),
 	is_active BOOLEAN NOT NULL DEFAULT TRUE,
 	order_no smallint DEFAULT 0,
+    total_bill numeric(12,2) DEFAULT 0,
 	UNIQUE(name)
 );
 
